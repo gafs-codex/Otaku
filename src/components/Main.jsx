@@ -1,6 +1,7 @@
 import { TrendingUp } from 'lucide-react';
 import NowAiring from './NowAiring';
 import Upcoming from './Upcoming';
+import GenreSection from './GenreSection';
 
 export default function Main() {
 
@@ -23,9 +24,6 @@ export default function Main() {
                 <div className="anime-grid">
                     <NowAiring />
                 </div>
-
-
-
             </section>
 
 
@@ -46,7 +44,9 @@ export default function Main() {
             </section>
 
 
-            <section></section>
+            <section>
+                <GenreSection />
+            </section>
 
 
             <section></section>
