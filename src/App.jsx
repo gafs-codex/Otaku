@@ -1,13 +1,16 @@
 import Navbar from "./components/Navbar"
-import Hero from "./components/Hero"
-import Main from "./components/Main"
+import { BrowserRouter, Routes, Route, useParams, Navigate } from "react-router-dom"
 function App() {
 
   return (
     <>
-      <Navbar />
-      <Hero />
-      <Main />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Hero />} />
+          <Route />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
