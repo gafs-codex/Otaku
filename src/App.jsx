@@ -5,11 +5,9 @@ function App() {
 
   return (
     <>
-      {/* {/* <Navbar /> */}
-      {/* <Hero /> */}
+      <Navbar />
+      <Hero />
       <Main />
-      {/* <FetchAnime /> */}
-
     </>
   )
 }

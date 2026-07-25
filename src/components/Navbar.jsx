@@ -25,7 +25,7 @@ export default function Navbar() {
 
                 <div>
                     <button className='theme-btn'>
-                        <Sun />
+                        <Sun width={20} height={20} />
                     </button>
                 </div>
             </div>
