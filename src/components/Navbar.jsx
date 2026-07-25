@@ -1,5 +1,6 @@
 import mainLogo from '../assets/Logo.svg'
 import { Sun } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 export default function Navbar() {
 
     return (
@@ -18,7 +19,9 @@ export default function Navbar() {
                         </li>
 
                         <li>
-                            Favorites
+                            <NavLink className="links" to="/favorites">
+                                Favorites
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>

@@ -1,5 +1,6 @@
 import { Trash2 } from 'lucide-react';
 import { Heart } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 export default function FavoritesPage() {
     return (
@@ -18,12 +19,14 @@ export default function FavoritesPage() {
             </div>
 
             <div className='saved-favorites'>
-                <Heart />
+                <Heart width={40} height={40} color='#6b5e6e' />
                 <h2>Your library is empty</h2>
                 <p>Tap on the heart anime to save it here</p>
-                <button className='hero-search'>
-                    browse anime
-                </button>
+                <NavLink to="/" style={{ marginTop: "1.25rem", color: "red" }}>
+                    <button>
+                        browse anime
+                    </button>
+                </NavLink>
             </div>
         </main>
     )

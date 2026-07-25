@@ -1,4 +1,6 @@
 import Navbar from "./components/Navbar"
+import HomePage from "./pages/HomePage"
+import FavoritesPage from "./pages/FavoritesPage"
 import { BrowserRouter, Routes, Route, useParams, Navigate } from "react-router-dom"
 function App() {
 
@@ -7,8 +9,8 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Hero />} />
-          <Route />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
         </Routes>
       </BrowserRouter>
     </>
