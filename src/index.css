@@ -385,9 +385,10 @@ body.dark .skeleton::before {
 }
 
 .favorites-container {
-  border: 2px solid black;
+  /* border: 2px solid black; */
   display: flex;
   justify-content: space-between;
+  align-items: end;
 
 }
 
@@ -402,4 +403,38 @@ body.dark .skeleton::before {
 .favorites-header p {
   font-size: 0.85rem;
   color: #6b5e6e;
+}
+
+.filter-favorites {
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+
+}
+
+.filter-favorites:focus {
+  border-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.filter-favorites option {
+  padding: 0.625rem;
+}
+
+.affect-favorites {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.affect-favorites button {
+  display: flex;
+  align-items: center;
+  color: red;
+  background: #FBEDF1;
+  cursor: pointer;
+  gap: 0.5rem;
+  font-size: 1.0rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 1.25rem;
+  border: 1px solid red;
 }

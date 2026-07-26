@@ -12,9 +12,16 @@ export default function FavoritesPage() {
                 </div>
 
 
-                <div>
-                    <select name="" id=""></select>
-                    <button></button>
+                <div className='affect-favorites'>
+                    <select className='filter-favorites' name="" id="">
+                        <option value="" className='opt'>Recently Added</option>
+                        <option value="">Rating</option>
+                        <option value="">Title Added</option>
+                    </select>
+                    <button>
+                        <Trash2 color='red' width={20} height={20} />
+                        Clear all
+                    </button>
                 </div>
             </div>
 
