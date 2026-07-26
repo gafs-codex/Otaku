@@ -1,13 +1,13 @@
 import { Heart } from 'lucide-react';
 
 // function AnimeCard({ poster, title, year, type, isFavorite, onFavoriteClick, onClick }) {
-function AnimeCard({ anime, isFavorite, onFavoriteClick }) {
+function AnimeCard({ anime, isFavorite, toggleFavorite }) {
     return (
         <article className="anime-card">
             <div className="poster-container">
                 <img src={anime?.images?.webp?.large_image_url} alt={anime?.title} className="poster" />
 
-                <button className="favorite-btn" onClick={onFavoriteClick}>
+                <button className="favorite-btn" onClick={() => toggleFavorite(anime)}>
                     <Heart color={isFavorite ? "#E5259A" : "black"} fill={isFavorite ? "#E5259A" : "none"} />
                 </button>
             </div>

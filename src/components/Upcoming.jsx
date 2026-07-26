@@ -4,7 +4,7 @@ import AnimeCard from "../ui/AnimeCard"
 import SkeletonCard from "../ui/SkeletonCard"
 import Error from "../ui/Error"
 
-export default function Upcoming() {
+export default function Upcoming({ isFavorite, toggleFavorite }) {
     const [upcoming, setUpcoming] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -44,7 +44,7 @@ export default function Upcoming() {
         <>
             {upcoming ? upcoming.map((anime) => {
                 return (
-                    <AnimeCard anime={anime} />
+                    <AnimeCard anime={anime} isFavorite={isFavorite.some(item => item.mal_id === anime.mal_id)} toggleFavorite={toggleFavorite} />
                 )
             }) : []}
         </>

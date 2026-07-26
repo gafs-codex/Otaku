@@ -1,10 +1,10 @@
 import Hero from "../components/Hero"
 import Main from "../components/Main"
-export default function HomePage() {
+export default function HomePage({ isFavorite, toggleFavorite }) {
     return (
         <>
             <Hero />
-            <Main />
+            <Main isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
         </>
     )
 }

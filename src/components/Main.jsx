@@ -5,7 +5,7 @@ import GenreSection from './GenreSection';
 import TopAnime from './TopAnime';
 import { useState } from 'react';
 
-export default function Main() {
+export default function Main({ isFavorite, toggleFavorite }) {
     const [selectedGenre, setSelectedGenre] = useState(null)
 
 
@@ -25,7 +25,7 @@ export default function Main() {
 
 
                 <div className="anime-grid">
-                    <NowAiring />
+                    <NowAiring isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
                 </div>
             </section>
 
@@ -42,7 +42,7 @@ export default function Main() {
 
 
                 <div className="anime-grid">
-                    <Upcoming />
+                    <Upcoming isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
                 </div>
             </section>
 
@@ -69,6 +69,8 @@ export default function Main() {
                 <div className="anime-grid">
                     <TopAnime
                         selectedGenre={selectedGenre}
+                        isFavorite={isFavorite}
+                        toggleFavorite={toggleFavorite}
                     />
                 </div>
             </section>

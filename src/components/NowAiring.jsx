@@ -4,9 +4,8 @@ import AnimeCard from "../ui/AnimeCard"
 import SkeletonCard from "../ui/SkeletonCard"
 import Error from "../ui/Error"
 
-export default function NowAiring() {
+export default function NowAiring({ isFavorite, toggleFavorite }) {
     const [airingAnime, setAiringAnime] = useState([])
-    const [isFavorite, setIsFavorite] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     useEffect(() => {
@@ -25,15 +24,7 @@ export default function NowAiring() {
             })
     }, [])
 
-    function onFavoriteClick(anime) {
-        setIsFavorite(prev => {
-            const alreadyFavorite = prev.includes(anime.mal_id)
-            if (alreadyFavorite) {
-                return prev.filter(id => id !== anime.mal_id)
-            }
-            return [...prev, anime.mal_id]
-        })
-    }
+
     if (loading) {
         return (
             <>
@@ -51,7 +42,7 @@ export default function NowAiring() {
         <>
             {airingAnime ? airingAnime.map((anime) => {
                 return (
-                    <AnimeCard key={anime.mal_id} anime={anime} isFavorite={isFavorite.includes(anime.mal_id)} onFavoriteClick={() => onFavoriteClick(anime)} />
+                    <AnimeCard key={anime.mal_id} anime={anime} isFavorite={isFavorite.some(item => item.mal_id === anime.mal_id)} toggleFavorite={toggleFavorite} />
                 )
             }) : []
             }

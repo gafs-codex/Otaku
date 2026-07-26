@@ -11,7 +11,9 @@ export default function Navbar() {
                 <nav>
                     <ul>
                         <li>
-                            Discover
+                            <NavLink className="links" to="/">
+                                Discover
+                            </NavLink>
                         </li>
 
                         <li>

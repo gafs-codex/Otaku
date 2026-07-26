@@ -438,3 +438,32 @@ body.dark .skeleton::before {
   border-radius: 1.25rem;
   border: 1px solid red;
 }
+
+.error {
+  grid-column: 2 / -2;
+  width: 100%;
+  padding: 1.5rem;
+  border: 2px solid red;
+  border-radius: 1rem;
+  /* margin: 0 auto; */
+  border: 1px dashed var(--primary-color);
+  text-align: center;
+  background: var(--secondary-color);
+}
+
+.error p {
+  color: #6b5e6e;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.error-btn {
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--text);
+  padding: 0.65rem;
+  border-radius: 1.3rem;
+  font-size: 1.0rem;
+  margin-top: 1.25rem;
+  cursor: pointer;
+}
