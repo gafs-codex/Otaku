@@ -9,6 +9,7 @@ import SkeletonCard from "../ui/SkeletonCard";
 import GatewayError from "../Errors/GateWayError";
 import RequestOverload from "../Errors/RequestOverload";
 import FailedRequest from "../Errors/FailedRequest";
+import AnimePageSkeleton from "../ui/AnimePageSkeleton";
 
 export default function AnimePage({ isFavorite, toggleFavorite }) {
     const [anime, setAnime] = useState(null)
@@ -43,23 +44,23 @@ export default function AnimePage({ isFavorite, toggleFavorite }) {
     }, [id])
 
     if (loading) {
-        return <SkeletonCard />;
+        return <AnimePageSkeleton />;
     }
 
     if (error === "too-many-requests") {
-        return <RequestOverload />;
+        return <div className="error-wrapper"><RequestOverload /></div>;
     }
 
     if (error === "gateway-timeout") {
-        return <GatewayError />;
+        return <div className="error-wrapper"><GatewayError /></div>;
     }
 
     if (error === "offline") {
-        return <NoInternet />;
+        return <div className="error-wrapper"><NoInternet /></div>;
     }
 
     if (error === "request-failed") {
-        return <FailedRequest />;
+        return <div className="error-wrapper"><FailedRequest /></div>;
     }
 
 
@@ -97,7 +98,7 @@ export default function AnimePage({ isFavorite, toggleFavorite }) {
 
                             <div className="anime-badges">
                                 <span className="pill score">
-                                    <Star width={15} height={15} fill="#E5259A" /> {anime.score} <span className="scorers">{`(${anime.scored_by.toLocaleString()} votes)`}</span>
+                                    <Star width={15} height={15} fill="#E5259A" /> {anime.score} <span className="scorers">{`(${anime.scored_by ? anime.scored_by.toLocaleString() : "0"} votes)`}</span>
                                 </span>
 
                                 <span className="pill">
@@ -132,7 +133,6 @@ export default function AnimePage({ isFavorite, toggleFavorite }) {
                                 {anime.synopsis}
                             </p>
 
-                            {/* MOVE THE GRID HERE */}
 
                             <div className="anime-details">
 
@@ -194,9 +194,7 @@ export default function AnimePage({ isFavorite, toggleFavorite }) {
 
             <div className="cast-c">
                 <h1>Cast</h1>
-                <div className="casting">
-                    <Cast />
-                </div>
+                <Cast />
             </div>
 
 

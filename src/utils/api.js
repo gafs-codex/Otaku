@@ -6,7 +6,7 @@ export default function fetchAnime(endpoint) {
                 if (response.status === 429) {
                     throw new Error("too-many-requests")
                 }
-                if (response.status === 502) {
+                if (response.status === 502 || response.status === 504) {
                     throw new Error("gateway-timeout");
                 }
                 if (response.status === 503) {

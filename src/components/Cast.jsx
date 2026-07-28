@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react"
 import fetchAnime from "../utils/api"
 import { useParams } from "react-router-dom"
+import GatewayError from "../Errors/GateWayError"
+import FailedRequest from "../Errors/FailedRequest"
+import RequestOverload from "../Errors/RequestOverload"
+import NoInternet from "../Errors/NoInternet"
 
 export default function Cast() {
     const [cast, setCast] = useState([])
@@ -9,12 +13,23 @@ export default function Cast() {
     const { id } = useParams()
 
     useEffect(() => {
+        setLoading(true);
+        setError("");
         setCast([]);
         fetchAnime(`/anime/${id}/characters`)
             .then(data => {
                 console.log(data.slice(0, 20));
                 setCast(data.slice(0, 20))
             })
+            .catch(err => {
+                console.log(err);
+                setError(err.message);
+            })
+            .finally(() => {
+                setLoading(false)
+            }
+
+            )
 
     }, [id])
 
@@ -23,22 +38,23 @@ export default function Cast() {
     }
 
     if (error === "too-many-requests") {
-        return <RequestOverload />;
+        return <div className="cast-error"><RequestOverload /></div>;
     }
 
     if (error === "gateway-timeout") {
-        return <GatewayError />;
+        return <div className="cast-error"><GatewayError /></div>;
     }
 
     if (error === "offline") {
-        return <NoInternet />;
+        return <div className="cast-error"><NoInternet /></div>;
     }
 
     if (error === "request-failed") {
-        return <FailedRequest />;
+        return <div className="cast-error"><FailedRequest /></div>;
     }
     return (
-        <>
+
+        <div className="casting">
             {cast ? cast.map((cast) => {
                 return (
                     <div className="cast-container">
@@ -60,6 +76,7 @@ export default function Cast() {
                     </div>
                 )
             }) : ""}
-        </>
+
+        </div>
     )
 }

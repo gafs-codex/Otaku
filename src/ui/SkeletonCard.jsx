@@ -1,7 +1,7 @@
 export default function SkeletonCard() {
     return (
         <article className="anime-card skeleton-card">
-            <div className="poster skeleton"></div>
+            <div className="skeleton-poster"></div>
 
             <div className="anime-info">
                 <div className="skeleton title"></div>

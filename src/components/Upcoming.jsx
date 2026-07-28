@@ -14,17 +14,18 @@ export default function Upcoming({ isFavorite, toggleFavorite }) {
         setLoading(true)
         fetchAnime(`/seasons/upcoming`)
             .then((data) => {
-                if (!data) {
-                    setError("Couldn't load this section")
-                    setLoading(false);
-                    return
-                }
-
                 console.log(data);
                 setUpcoming(data.slice(0, 15))
                 setLoading(false)
-
             })
+            .catch(err => {
+                console.log(err);
+                setError(err.message);
+            })
+            .finally(() => {
+                setLoading(false)
+            }
+            )
     }, [])
 
     if (loading) {
@@ -37,9 +38,22 @@ export default function Upcoming({ isFavorite, toggleFavorite }) {
         );
     }
 
-    if (error) {
-        return <Error message={error} />;
+    if (error === "too-many-requests") {
+        return <div className="error-wrapper"><RequestOverload /></div>;
     }
+
+    if (error === "gateway-timeout") {
+        return <div className="error-wrapper"><GatewayError /></div>;
+    }
+
+    if (error === "offline") {
+        return <div className="error-wrapper"><NoInternet /></div>;
+    }
+
+    if (error === "request-failed") {
+        return <div className="error-wrapper"><FailedRequest /></div>;
+    }
+
     return (
         <>
             {upcoming ? upcoming.map((anime) => {

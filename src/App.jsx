@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar"
 import HomePage from "./pages/HomePage"
 import AnimePage from "./pages/AnimePage"
 import FavoritesPage from "./pages/FavoritesPage"
+import SearchPage from "./pages/SearchPage"
 import { BrowserRouter, Routes, Route, useParams, Navigate } from "react-router-dom"
 import { useState } from "react"
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/" element={<HomePage isFavorite={isFavorite} toggleFavorite={toggleFavorite} />} />
           <Route path="/favorites" element={<FavoritesPage isFavorite={isFavorite} toggleFavorite={toggleFavorite} clearFavorites={clearFavorites} />} />
           <Route path="/anime/:id" element={<AnimePage isFavorite={isFavorite} toggleFavorite={toggleFavorite} />} />
+          <Route path="/search" element={<SearchPage />} />
         </Routes>
       </BrowserRouter>
     </>
