@@ -1310,6 +1310,7 @@ body.dark .mobile-link.active {
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, .08),
     0 8px 20px rgba(0, 0, 0, .08);
+  display: none;
 }
 
 body.dark .menu-btn {

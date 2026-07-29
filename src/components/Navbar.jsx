@@ -74,6 +74,7 @@ export default function Navbar() {
                     </button>
                 </div>
             </div>
+            
             <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
                 <NavLink
                     to="/"
