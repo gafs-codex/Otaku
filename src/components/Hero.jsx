@@ -1,7 +1,7 @@
 import { Sparkles } from 'lucide-react';
 import { ArrowRight } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
-export default function Hero() {
+export default function Hero({ topAnimeRef }) {
     return (
         <section>
             <div className="hero">
@@ -17,7 +17,15 @@ export default function Hero() {
                         <NavLink to="/search">
                             <button className="hero-search">Start searching</button>
                         </NavLink>
-                        <button className="hero-browse">Browse top anime <ArrowRight strokeWidth={1.5} height={20} /></button>
+                        <button
+                            className="hero-browse"
+                            onClick={() => topAnimeRef.current?.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                            })}
+                        >
+                            Browse top anime <ArrowRight strokeWidth={1.5} height={20} />
+                        </button>
                     </div>
                 </div>
             </div>

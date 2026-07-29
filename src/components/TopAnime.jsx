@@ -2,9 +2,12 @@ import fetchAnime from "../utils/api"
 import { useState, useEffect } from "react"
 import AnimeCard from "../ui/AnimeCard"
 import SkeletonCard from "../ui/SkeletonCard"
-import Error from "../ui/Error"
+import GatewayError from "../Errors/GateWayError"
+import RequestOverload from "../Errors/RequestOverload"
+import NoInternet from "../Errors/NoInternet"
+import FailedRequest from "../Errors/FailedRequest"
 
-export default function TopAnime({ selectedGenre, isFavorite, toggleFavorite }) {
+export default function TopAnime({ selectedGenre, isFavorite, toggleFavorite, topAnimeRef }) {
     const [topAnime, setTopAnime] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -19,15 +22,17 @@ export default function TopAnime({ selectedGenre, isFavorite, toggleFavorite }) 
         setLoading(true)
         fetchAnime(endpoint)
             .then((data) => {
-                if (!data) {
-                    setError("Couldn't load this section")
-                    setLoading(false);
-                    return
-                }
                 console.log("Returned data:", data);
                 setTopAnime(data || []);
                 setLoading(false);
-            });
+            })
+            .catch(err => {
+                console.log(err);
+                setError(err.message);
+            })
+            .finally(() => {
+                setLoading(false)
+            })
     }, [endpoint]);
 
 
@@ -41,11 +46,24 @@ export default function TopAnime({ selectedGenre, isFavorite, toggleFavorite }) 
         );
     }
 
-    if (error) {
-        return <Error message={error} />;
+    if (error === "too-many-requests") {
+        return <div className="error-wrapper"><RequestOverload /></div>;
+    }
+
+    if (error === "gateway-timeout") {
+        return <div className="error-wrapper"><GatewayError /></div>;
+    }
+
+    if (error === "offline") {
+        return <div className="error-wrapper"><NoInternet /></div>;
+    }
+
+    if (error === "request-failed") {
+        return <div className="error-wrapper"><FailedRequest /></div>;
     }
     return (
-        <>
+        <div className="anime-grid">
+
             {topAnime ? topAnime.map((anime) => {
                 return (
                     <AnimeCard key={anime.mal_id} anime={anime} isFavorite={isFavorite.some(
@@ -54,6 +72,7 @@ export default function TopAnime({ selectedGenre, isFavorite, toggleFavorite }) 
                         toggleFavorite={toggleFavorite} />
                 )
             }) : []}
-        </>
+
+        </div>
     )
 }

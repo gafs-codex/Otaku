@@ -7,9 +7,13 @@ import NoInternet from '../Errors/NoInternet';
 import RequestOverload from '../Errors/RequestOverload';
 import SkeletonCard from '../ui/SkeletonCard';
 import AnimeCard from '../ui/AnimeCard';
+import { ShieldQuestionMark } from 'lucide-react';
 
-export default function SearchPage() {
+export default function SearchPage({ isFavorite, toggleFavorite }) {
     const [input, setInput] = useState("")
+    const [title, setTitle] = useState("")
+    const [hasSearched, setHasSearched] = useState(false)
+    const [allAnime, setAllAnime] = useState([]);
     const [type, setType] = useState("");
     const [minScore, setMinScore] = useState("");
     const [fromYear, setFromYear] = useState("");
@@ -20,26 +24,70 @@ export default function SearchPage() {
     const [error, setError] = useState("");
 
 
-    const params = new URLSearchParams();
 
-    params.append("q", input);
-
-    if (type) params.append("type", type);
-    if (minScore) params.append("min_score", minScore);
-
-    const endpoint = `/anime?${params.toString()}`;
-
-    // const endpoint = `/anime?${params.toString()}`;
-    // const endpoint = `/anime?q=${encodeURIComponent(input)}`;
-    // const endpoint = `/anime?q=${encodeURIComponent(input)}&order_by=popularity`;
-    // const endpoint = `/anime?q=${encodeURIComponent(input)}&sort=desc`;
-    console.log("Endpoint:", endpoint);
-    console.log("Full URL:", `https://api.jikan.moe/v4${endpoint}`);
+    const endpoint = `/anime?q=${encodeURIComponent(title)}`;
+    console.log(endpoint);
 
 
     useEffect(() => {
+        let filtered = [...allAnime];
 
-        if (input.trim().length < 3) {
+        if (type) {
+            filtered = filtered.filter(
+                anime => anime.type?.toLowerCase() === type
+            );
+        }
+
+        if (minScore) {
+            filtered = filtered.filter(
+                anime => anime.score >= Number(minScore)
+            );
+        }
+
+
+        if (fromYear) {
+            filtered = filtered.filter(anime => {
+                const year =
+                    anime.year ??
+                    (anime.aired?.from
+                        ? new Date(anime.aired.from).getFullYear()
+                        : 0)
+                return year >= Number(fromYear);
+            });
+        }
+
+
+        if (toYear) {
+            filtered = filtered.filter(anime => {
+                const year = anime.year || new Date(anime.aired.from).getFullYear();
+                return year <= Number(toYear);
+            });
+        }
+
+        if (sortBy === "score") {
+            filtered = [...filtered].sort((a, b) => b.score - a.score);
+        }
+
+        if (sortBy === "start_date") {
+            filtered = [...filtered].sort((a, b) => new Date(b.aired.from) - new Date(a.aired.from))
+        }
+
+        if (sortBy === "title") {
+            filtered = [...filtered].sort((a, b) =>
+                a.title.localeCompare(b.title))
+        }
+        if (sortBy === "popularity") {
+            filtered = [...filtered].sort(
+                (a, b) => b.popularity - a.popularity
+            );
+        }
+
+        setResult(filtered)
+    }, [allAnime, type, minScore, fromYear, toYear, sortBy]);
+
+    useEffect(() => {
+
+        if (title.trim().length < 3) {
             setResult([]);
             setError("");
             return;
@@ -52,7 +100,7 @@ export default function SearchPage() {
             setError("");
             fetchAnime(endpoint)
                 .then(data => {
-                    setResult(data);
+                    setAllAnime(data);
                     setError("");
                 })
                 .catch(err => {
@@ -70,25 +118,14 @@ export default function SearchPage() {
             controller.abort();
         };
 
-    }, [input, type, minScore]);
+    }, [title]);
 
-    // if (error === "too-many-requests") {
-    //     return <div className="error-wrapper"><RequestOverload /></div>;
-    // }
-
-    // if (error === "gateway-timeout") {
-    //     return <div className="error-wrapper"><GatewayError /></div>;
-    // }
-
-    // if (error === "offline") {
-    //     return <div className="error-wrapper"><NoInternet /></div>;
-    // }
-
-    // if (error === "request-failed") {
-    //     return <div className="error-wrapper"><FailedRequest /></div>;
-    // }
     function handleSubmit(e) {
         e.preventDefault();
+        if (title === input.trim()) return;
+        setHasSearched(true)
+        setLoading(true);
+        setTitle(input.trim().toLowerCase());
     }
 
     return (
@@ -96,12 +133,12 @@ export default function SearchPage() {
             <h1>Search</h1>
             <p>Live search across every Anime on the site</p>
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className='search-box'>
                     <Search strokeWidth={1.5} height={20} width={20} className='search-icon' />
                     <input
                         type="text"
-                        placeholder="Search anime...try 'attack on titan'"
+                        placeholder="Search anime...try 'naruto'"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                     />
@@ -214,15 +251,29 @@ export default function SearchPage() {
                     </div>
                 )}
 
-                {!loading && !error && (
-                    <div className="anime-grid">
-                        {result && result.map(anime => (
-                            <AnimeCard
-                                key={anime.mal_id}
-                                anime={anime}
-                            />
-                        ))}
-                    </div>
+                {!loading && !error && hasSearched && (
+                    result.length > 0 ? (
+                        <div className="anime-grid">
+                            {result && result.map(anime => (
+                                <AnimeCard
+                                    key={anime.mal_id}
+                                    anime={anime}
+                                    isFavorite={isFavorite.some(item => item.mal_id === anime.mal_id)} toggleFavorite={toggleFavorite}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className='no-results-cont'>
+                            <div className="no-results">
+                                <ShieldQuestionMark color="#E5259A" width={40} height={40} />
+                                <h3>No anime found</h3>
+                                <p>
+                                    No anime matches your current filters. Try changing the type,
+                                    minimum score, year range, or search for another title.
+                                </p>
+                            </div>
+                        </div>
+                    )
                 )}
 
             </div>

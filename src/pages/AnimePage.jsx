@@ -125,8 +125,17 @@ export default function AnimePage({ isFavorite, toggleFavorite }) {
                                 ))}
                             </div>
 
-                            <button className="favorite-btn-page">
-                                <Heart height={18} width={18} /> Add to favourites
+                            <button className="favorite-btn-page" onClick={() => toggleFavorite(anime)}>
+                                <Heart height={18} width={18} fill={
+                                    isFavorite.some(item => item.mal_id === anime.mal_id)
+                                        ? "#e5259a"
+                                        : "none"
+                                } color={isFavorite.some(item => item.mal_id === anime.mal_id)
+                                    ? "#e5259a"
+                                    : "black"} />
+                                {isFavorite.some(item => item.mal_id === anime.mal_id)
+                                    ? " Remove from favourites"
+                                    : " Add to favourites"}
                             </button>
 
                             <p className="synopsis">

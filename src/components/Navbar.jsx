@@ -1,8 +1,23 @@
 import mainLogo from '../assets/Logo.svg'
-import { Sun } from 'lucide-react';
+import { Sun, Moon, Menu, Heart, X } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 export default function Navbar() {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [dark, setDark] = useState(() => {
+        return localStorage.getItem("theme") === "dark";
+    })
+
+    useEffect(() => {
+        document.body.classList.toggle("dark", dark);
+
+        localStorage.setItem(
+            "theme",
+            dark ? "dark" : "light"
+        );
+    }, [dark]);
+
 
     // function navStyle({ isActive }) {
     //     return {
@@ -44,11 +59,51 @@ export default function Navbar() {
                     </ul>
                 </nav>
 
-                <div>
-                    <button className='theme-btn'>
-                        <Sun width={20} height={20} />
+                <div className='menu'>
+                    <NavLink className="fave-btn" to="/favorites">
+                        <Heart height={20} width={20} />
+                    </NavLink>
+
+                    <button className='theme-btn' onClick={() => setDark(prev => !prev)}>
+                        {dark ? <Sun width={20} height={20} /> : <Moon width={20} height={20} />}
+                    </button>
+
+
+                    <button className='menu-btn' onClick={() => setMenuOpen(prev => !prev)}>
+                        {menuOpen ? <X size={20} /> : <Menu size={20} />}
                     </button>
                 </div>
+            </div>
+            <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+                <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                        isActive ? "mobile-link active" : "mobile-link"
+                    }
+                    onClick={() => setMenuOpen(false)}
+                >
+                    Discover
+                </NavLink>
+
+                <NavLink
+                    to="/search"
+                    className={({ isActive }) =>
+                        isActive ? "mobile-link active" : "mobile-link"
+                    }
+                    onClick={() => setMenuOpen(false)}
+                >
+                    Search
+                </NavLink>
+
+                <NavLink
+                    to="/favorites"
+                    className={({ isActive }) =>
+                        isActive ? "mobile-link active" : "mobile-link"
+                    }
+                    onClick={() => setMenuOpen(false)}
+                >
+                    Favorites
+                </NavLink>
             </div>
         </header>
     )
