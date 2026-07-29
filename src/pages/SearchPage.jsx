@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import fetchAnime from '../utils/api';
-import GatewayError from '../Errors/GateWayError';
+import GatewayError from '../Errors/GatewayError';
 import FailedRequest from '../Errors/FailedRequest';
 import NoInternet from '../Errors/NoInternet';
 import RequestOverload from '../Errors/RequestOverload';

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import fetchAnime from "../utils/api"
 import { useParams } from "react-router-dom"
-import GatewayError from "../Errors/GateWayError"
+import GatewayError from "../Errors/GatewayError"
 import FailedRequest from "../Errors/FailedRequest"
 import RequestOverload from "../Errors/RequestOverload"
 import NoInternet from "../Errors/NoInternet"

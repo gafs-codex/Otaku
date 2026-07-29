@@ -6,7 +6,7 @@ import fetchAnime from "../utils/api";
 import Cast from "../components/Cast";
 import Recommendations from "../components/Recommendations";
 import SkeletonCard from "../ui/SkeletonCard";
-import GatewayError from "../Errors/GateWayError";
+import GatewayError from "../Errors/GatewayError";
 import RequestOverload from "../Errors/RequestOverload";
 import FailedRequest from "../Errors/FailedRequest";
 import AnimePageSkeleton from "../ui/AnimePageSkeleton";
